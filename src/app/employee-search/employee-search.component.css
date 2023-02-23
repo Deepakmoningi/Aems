@@ -1,0 +1,13 @@
+table,th,td{
+    border:2px solid black
+  }
+.card{
+    border:2px solid black;
+}
+#Month,#Year,#id{
+  border:2px solid black;
+  
+}
+/* #checkinDate,#checkinTime,#checkoutDate,#checkoutTime,#Inputid1{
+  border: 2px solid black;
+} */

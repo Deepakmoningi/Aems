@@ -1,0 +1,35 @@
+{
+  "posts": [
+    {
+      "id": 2,
+      "firstName": "Deepak",
+      "email": "deepakmoningi091@gmail.com",
+      "mobile": "6302615116",
+      "salary": "28000"
+    },
+    {
+      "id": 3,
+      "firstName": "Alex",
+      "email": "alex@gmail.com",
+      "mobile": "123456789",
+      "salary": "234567"
+    },
+    {
+      "id": 6,
+      "firstName": "ruby",
+      "email": "wiudhw@gmail.com",
+      "mobile": "1234567",
+      "salary": "23456"
+    }
+  ],
+  "signupUsers": [
+    {
+      "username": "somebody@gmail.com",
+      "password": "some",
+      "id": 5
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

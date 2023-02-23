@@ -1,0 +1,9 @@
+table,th,td{
+    border:2px solid black;
+  }
+.card,.form-label{
+    border:2px solid black;
+}
+#Month,#Year,#id{
+  border:2px solid black;
+}

@@ -1,0 +1,34 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h1 style="color: aliceblue; margin-left: 570px;">Employee Portal</h1>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="text-center">
+                    <h1>Login</h1>
+                </div>
+                <hr class="mx-n3">
+                <form>
+                    <form [formGroup]="loginForm">
+                        <div class="mb-3">
+                          <label for="exampleInputEmail1" class="form-label">Email</label>
+                          <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                          <span class="text-danger" *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">*Email is required</span>
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleInputPassword1" class="form-label">Password</label>
+                          <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+                          <span class="text-danger" *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">*password is required</span>
+                        </div>
+                        <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary mt-3">Login</button>
+                      </form>
+                      <a style="color:#fff; margin-top: 10px;" routerLink="/signup">New User? Click to Signup!!</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

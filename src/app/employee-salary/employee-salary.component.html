@@ -1,0 +1,111 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h1 style="color: aliceblue; margin-left:570px ;">Employee Portal</h1>
+    </div>
+</nav>
+<br>
+
+<div class="card" style="margin-left: 250px; margin-right: 250px;" >
+    <div class="container" style="margin-left: 60px;">
+        <form [formGroup]="salaryForm">
+            <div class="row" style="margin-top: 15px; margin-left: 15px;margin-right: 15px;margin-bottom: 15px;">
+                <div class="col-md-4 mb-2">
+                    <div class="mb-2">
+                        <label for="empid" style="margin-bottom: 9px"><b>Employee Id</b></label>
+                        <input type="number" formControlName="empid" class="form-label" id="empid" ><br>
+                        <span class="text-danger" *ngIf="(salaryForm.controls['empid'].dirty || salaryForm.controls['empid'].touched) && salaryForm.hasError('required','empid')">*Employee Id is required</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                    <div class="mb-2">
+                        <label for="Year" style="margin-bottom: 8px;"><b>Year</b></label><br>
+                        <select name="Year" id="Year" class="form-label" formControlName="year">
+                            <option disabled value="null"> Select Year</option>
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select><br>
+                        <span class="text-danger" *ngIf="salaryForm.controls['year'].touched && salaryForm.hasError('required','year')">*Year is required</span> 
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                    <div class="mb-2">
+                        <label for="Month" style="margin-bottom: 8px;"><b>Month</b></label><br>
+                        <!-- <select class="form-control" name="Month" id="Month" formControlName="month" >
+                            <option value="Month">Month</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select> -->
+                        <select name="Month"  id="Month" formControlName="month">
+                            <option disabled value="null"> Select Month</option>
+                            <option class="form-label" *ngFor="let item of this.dataList;let i = index" value="{{item.code}}">{{item.name}}</option>
+                        </select><br>
+                        <span class="text-danger" *ngIf="salaryForm.controls['month'].touched && salaryForm.hasError('required','month')">*Month is required</span>
+                    </div>
+                </div>
+
+                <!-- <div class="col-md-6 mb-2">
+                    <div class="mb-2">
+                        <label class="form-label" for="reqDate"><b>Date</b></label>&nbsp;
+                        <input type="date" name="Month_Year" placeholder="Month_Year" formControlName="reqDate" id="reqDate" class="form-control">
+                    </div>
+                </div> -->
+            </div>
+            <button type="button" class="btn btn-primary" [disabled]="!salaryForm.valid" (click)="getEmployeesalary()" style="float: right; margin-right: 175px; color: aliceblue; margin-bottom: 12px;">Search</button>
+            <button type="button" style="color: aliceblue; float: right; margin-right: 10px;"  id="clear" class="btn btn-secondary" (click)="onclear()">Clear</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table mt-3" style="width:100%" *ngIf="disable">
+        <thead>
+            <tr style="text-align: center;">
+                <th scope="col">Employee ID</th>
+                <th scope="col">Department ID</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Basic Pay</th>
+                <th scope="col">HRA</th>
+                <th scope="col">MA</th>
+                <th scope="col">PPF</th>
+                <th scope="col">IT</th>
+                <th scope="col">Monthly Salary</th>
+                <th scope="col">Annual Salary</th>
+                <th scope="col">Month/Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center;" *ngFor="let row of list">
+                <td>{{row.e_Id}}</td>
+                <td>{{row.d_Id}}</td>
+                <td>{{row.e_Name | uppercase}}</td>
+                <td>{{row.basic_pay | currency:'INR':true:'1.0-0'}}</td>
+                <td>{{row.hra | currency:'INR':true:'1.0-0'}}</td>
+                <td>{{row.ma | currency:'INR':true:'1.0-0'}}</td>
+                <td>{{row.ppf | currency:'INR':true:'1.0-0'}}</td>
+                <td>{{row.it | currency:'INR':true:'1.0-0'}}</td>
+                <td>{{row.monthly_Salary | currency:'INR':true:'1.0-0'}}</td>
+                <td>{{row.annual_salary | currency:'INR':true:'1.0-0' }}</td>
+                <td>{{row.month_Year | date:'MM/yyyy'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <button style="color: black;" type="button" routerLink="/dashboard" class="btn btn-link"> -->
+    <button style="color: black;" type="button" (click)="perform()" class="btn btn-link">
+        Click here to Go back
+    </button>
+</div>

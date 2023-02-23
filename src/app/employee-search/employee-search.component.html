@@ -1,0 +1,143 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <!-- <button type="button" routerLink="/dashboard" style="margin-left: 5px;" class="btn-btn-link">Dashboard</button>  -->
+        <h1 style="color: aliceblue; margin-left: 570px ;">Employee Portal</h1>
+    </div>
+</nav>
+<br>
+<!-- <div class="card" style="margin-left: 500px; margin-right: 500px;" >
+    <div class="container" style="margin-right: 60px;">
+        <form [formGroup]="empSearchForm">
+            <div class="row" style="margin-top: 15px; margin-left: 15px;margin-right: 15px">
+                <div class="col-md-10 mb-5">
+                    <div class="mb-6">
+                        <label for="empid" style="margin-bottom: 9px;margin-left: 130px;"><b>Employee Id</b></label>
+                        <input type="number" style="margin-left: 85px;" formControlName="empid" class="form-label" id="empid" >
+                    </div>
+                </div>
+            </div>
+            <hr class="mx-n3">
+            <button type="button" (click)="getEmployee()" class="btn btn-primary" style="float: right; margin-right: 133px; color: aliceblue; margin-bottom: 12px;">Search</button>
+            <button type="reset" style="color: aliceblue; float: right; margin-right: 10px;" id="clear1" class="btn btn-secondary">Clear</button>
+        </form>
+    </div>
+</div> -->
+<div class="card" style="margin-left: 500px; margin-right: 500px;">
+  <div class="container">
+    <form [formGroup]="empSearchForm">
+      <div class="row" style="margin-top: 15px; text-align: center;" >
+        <div>
+          <div class="mb-6">
+            <label for="empid" ><b>Employee Id</b></label><br>
+            <input type="number" style="margin-top: 9px;" formControlName="empid" class="form-label" id="empid"><br>
+            <span class="text-danger" *ngIf="(empSearchForm.controls['empid'].dirty || empSearchForm.controls['empid'].touched) && empSearchForm.hasError('required','empid')">*Employee Id is required</span> 
+          </div>
+        </div>
+      </div>
+      <hr class="mx-n3">
+      <button type="button" [disabled]="!empSearchForm.valid" (click)="getEmployee()" class="btn btn-primary" style="float: right; margin-right: 133px; color: aliceblue; margin-bottom: 12px;">Search</button>
+      <button type="reset" style="color: aliceblue; float: right; margin-right: 10px;" id="clear1" class="btn btn-secondary">Clear</button>
+    </form>
+  </div>
+</div>
+<br>
+
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Details</h1> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="modal-body">
+            <form [formGroup]="attendaceSubmissionForm">
+              <div class="mb-3">
+                <label for="Inputid1" class="form-label"><b>Employee Id</b></label>
+                <input type="number" formControlName="empId" class="form-control" id="Inputid1">
+                <span class="text-danger" *ngIf="attendaceSubmissionForm.controls['empId'].dirty && attendaceSubmissionForm.hasError('required','empId')">*Employee Id is required</span>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkinDate"><b>Checkin Date</b></label>&nbsp;
+                    <input type="date" max="{{currentDate}}" formControlName="checkinDate" id="checkinDate" class="form-control" (ngModelChange)="checkCheckInTime(attendaceSubmissionForm.value.empId, attendaceSubmissionForm.value.checkinDate)">
+                    <span class="text-danger" *ngIf="(attendaceSubmissionForm.controls['checkinDate'].dirty || attendaceSubmissionForm.controls['checkinDate'].touched) && attendaceSubmissionForm.hasError('required','checkinDate')">*Checkin Date is required</span>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkinTime"><b>Checkin Time</b></label>
+                    <input type="time" formControlName="checkinTime" id="checkinTime" class="form-control" />
+                    <span class="text-danger" *ngIf="(attendaceSubmissionForm.controls['checkinTime'].dirty || attendaceSubmissionForm.controls['checkinTime'].touched) && attendaceSubmissionForm.hasError('required','checkinTime')">*Checkin Time is required</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkoutDate"><b>Checkout Date</b></label>
+                    <input type="date" max="{{currentDate}}" formControlName="checkoutDate" id="checkoutDate" class="form-control">
+                    <span class="text-danger" *ngIf="(attendaceSubmissionForm.controls['checkoutDate'].dirty || attendaceSubmissionForm.controls['checkoutDate'].touched) && attendaceSubmissionForm.hasError('required','checkoutDate')">*Checkout Date is required</span>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkoutTime"><b>Checkout Time</b></label>
+                    <input type="time"  max="{{currentTime}}"  min="{{currentTime}}" formControlName="checkoutTime" id="checkoutTime" class="form-control" />
+                    <span class="text-danger" *ngIf="(attendaceSubmissionForm.controls['checkoutTime'].dirty || attendaceSubmissionForm.controls['checkoutTime'].touched) && attendaceSubmissionForm.hasError('required','checkoutTime')">*Checkout Time is required</span> 
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" style="color: aliceblue;"  id="clear" class="btn btn-info" (click)="onclear()">Clear</button>
+          <button type="button" [disabled]="!attendaceSubmissionForm.valid" class="btn btn-primary"(click)="postAttendance()">Submit</button>
+          <button type="button" id="cancel1" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onclose()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<div class="container">
+    <table class="table mt-3" style="width:100%" *ngIf="disable">
+        <thead>
+            <tr style="text-align: center;">
+                <th scope="col">Employee Id</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Annual Salary</th>
+                <th scope="col">Employee Department Id</th>
+                <th scope="col">Checkin&Checkout</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center;" *ngFor="let row of list">
+                <td>{{row.emp_Id}}</td>
+                <td>{{row.emp_Name | uppercase}}</td>
+                <td>{{row.annual_salary}}</td> 
+                <td>{{row.e_Dept_Id}}</td>
+                <td>
+                  <button type="button" (click)="OnPlusClick(row)" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="mat-fab"> 
+                    +
+                  </button></td>
+                <td> 
+                    <button (click)="onviewClick(row)" style="color:aliceblue;" type="button" class="btn btn-info">View</button>&nbsp;&nbsp;
+                    <button (click)="onsearchClick(row)"  style="color:aliceblue;" type="button" class="btn btn-secondary">Search</button>&nbsp;&nbsp;
+                    <!-- <button style="color:aliceblue;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-secondary">Edit</button>&nbsp;&nbsp; -->
+                    <!-- <button class="btn btn-danger">Delete</button> -->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

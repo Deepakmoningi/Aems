@@ -1,0 +1,158 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <button type="button" routerLink="/empsearch" style="margin-left: 5px;" class="btn-btn-link">Back</button> 
+        <!-- <h1 style="color: aliceblue; margin-left: 570px;">Employee Portal</h1> -->
+        <h1 style="color: aliceblue; margin-left: 65px;">Employee Portal</h1>
+        <div class="d-flex">
+            <button (click)="clickAddEmployee()" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"class="btn btn-success">
+                Add Employee
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+  <table class="table mt-3" [formGroup]="formvalue">
+      <thead>
+          <tr style="text-align: center;">
+              <th scope="col">Employee ID</th>
+              <th scope="col">Employee Name</th>
+              <th scope="col">Annual Salary</th> 
+              <th scope="col">Employee Department ID</th>
+              <!-- <th scope="col">Checkin&Checkout</th> -->
+              <th scope="col">Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr style="text-align: center;" *ngFor="let row of list">
+              <td>{{row.emp_Id}}</td>
+              <td>{{row.emp_Name}}</td>
+              <td>{{row.annual_salary}}</td>
+              <td>{{row.e_Dept_Id}}</td>
+              <!-- <td>
+                <button (click)="OnPlusClick(row)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal1" class="mat-fab"> 
+                  +
+                </button>
+              </td> -->
+              <td> 
+                  <!-- <button (click)="onviewClick(row)" style="color:aliceblue;" type="button" class="btn btn-info">View</button>&nbsp;&nbsp;
+                  <button routerLink="/salary"  style="color:aliceblue; background-color: #F6416C;" type="button" class="btn btn-success">Search</button>&nbsp;&nbsp; -->
+                  <button (click)="onEdit(row)" style="color:aliceblue;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary">Edit</button>&nbsp;&nbsp;
+                  <button (click)="deleteEmp(row)" class="btn btn-danger">Delete</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formvalue">
+                <div class="mb-3">
+                  <label for="Inputid" class="form-label"><b>Employee id</b></label>
+                  <input type="number" formControlName="empid" class="form-control" id="Inputid">
+                  <span class="text-danger" *ngIf="(formvalue.controls['empid'].dirty || formvalue.controls['empid'].touched) && formvalue.hasError('required','empid')">*Employee Id is required</span>
+                </div>
+
+                <div class="mb-3">
+                  <label for="Inputname" class="form-label"><b>Employee name</b></label>
+                  <input type="text" formControlName="empname" class="form-control" id="Inputname">
+                  <span class="text-danger" *ngIf="(formvalue.controls['empname'].dirty || formvalue.controls['empname'].touched) && formvalue.hasError('required','empname')">*Employee Name is required</span>
+                </div>
+
+                <div class="mb-3">
+                  <label for="Inputsalary" class="form-label"><b>Annual salary</b></label>
+                  <input type="number" formControlName="annsalary" class="form-control" id="Inputsalary">
+                  <span class="text-danger" *ngIf="(formvalue.controls['annsalary'].dirty || formvalue.controls['annsalary'].touched) && formvalue.hasError('required','annsalary')">*Annual salary is required</span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Inputdid" class="form-label"><b>Employee department id</b></label>
+                    <input type="number" formControlName="edeptid" class="form-control" id="Inputdid">
+                    <span class="text-danger" *ngIf="(formvalue.controls['edeptid'].dirty || formvalue.controls['edeptid'].touched) && formvalue.hasError('required','edeptid')">*Department Id is required</span>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" *ngIf="showAdd"  (click)="postEmployeeDetails()" class="btn btn-primary">Add</button>
+          <button type="button" *ngIf="showUpdate" (click)="updateEmployeeDetails()" class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Details</h1> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="modal-body">
+            <form [formGroup]="attendaceForm">
+              <div class="mb-3">
+                <label for="Inputid1" class="form-label">Employee Id</label>
+                <input type="number" formControlName="empId" class="form-control" id="Inputid1">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkinDate">Checkin Date</label>&nbsp;
+                    <input type="date" max="{{currentDate}}" formControlName="checkinDate" id="checkinDate" class="form-control" (ngModelChange)="checkCheckInTime(attendaceForm.value.empId, attendaceForm.value.checkinDate)">
+                    <!-- <input type="date" [max]="currentDate" formControlName="checkinDate" id="checkinDate" class="form-control"/>  -->
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkinTime">Checkin Time</label>
+                    <input type="time" formControlName="checkinTime" id="checkinTime" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkoutDate">Checkout Date</label>
+                    <input type="date" max="{{currentDate}}" formControlName="checkoutDate" id="checkoutDate" class="form-control">
+                    <!-- <input type="date" formControlName="checkoutDate" id="checkoutDate"class="form-control" /> -->
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <div class="form-outline">
+                    <label class="form-label" for="checkoutTime">Checkout Time</label>
+                    <input type="time"  max="{{currentTime}}"  min="{{currentTime}}" formControlName="checkoutTime" id="checkoutTime" class="form-control" /> 
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        <div class="modal-footer">
+          <button type="button" style="color: aliceblue;"  id="clear" class="btn btn-info" (click)="onclear()">Clear</button>
+          <button type="button" class="btn btn-primary"(click)="postAttendance()">Submit</button>
+          <button type="button" id="cancel1" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onclose()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  

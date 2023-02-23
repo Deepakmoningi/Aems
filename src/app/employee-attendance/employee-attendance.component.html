@@ -1,0 +1,29 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+        <h1 style="color: aliceblue; margin-left:570px ;">Employee Portal</h1>
+    </div>
+</nav>
+
+<div class="container">
+    <table class="table mt-3" >
+        <thead>
+            <tr style="text-align: center;">
+                <th scope="col">Employee ID</th>
+                <th scope="col">Checkin Time</th>
+                <th scope="col">Checkout Time</th>
+                <th scope="col">Working Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center;" *ngFor="let row of list">
+                <td>{{row.emp_Id}}</td>
+                <td>{{row.check_In_Time | date:'dd/MM/yyyy h:mm a'}}</td>
+                <td>{{row.check_Out_Time | date:'dd/MM/yyyy h:mm a'}}</td>
+                <td>{{row.working_Hours}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button style="color: black;" (click)="perform()" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-link">
+        Click here to Go back
+    </button>
+  </div>
